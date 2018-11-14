@@ -12,7 +12,7 @@ This is a plugin for the font editor Glyphs.app. It shows the kerning values abo
 ### Usage Instructions
 
 1. Open at least two glyphs in Edit View.
-2. Use *View > Show Kerning Values* (de: *Ansicht > Zeige Kerning-Werte*, es: *Ver > Mostrar valores de Kerning*, fr: *Affichage > Afficher valeurs de crénage*) to toggle the display of the kerning values.
+2. Use *View > Show Kerning Values* (de: *Ansicht > Zeige Kerning-Werte*, es: *Vista > Mostrar valores de Kerning*, fr: *Affichage > Afficher valeurs de crénage*) to toggle the display of the kerning values.
 
 It will not display if you put the cursor *after* all text in Edit view.
 
