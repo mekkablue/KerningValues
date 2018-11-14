@@ -71,7 +71,7 @@ class KernIndicator(ReporterPlugin):
 								lastLayerInLinePosition = tabView.cachedPositionAtIndex_(i)
 								thisLayerInLinePosition = lineOfOffsets[j]
 								offset = subtractPoints(thisLayerInLinePosition, activePosition)
-								textPoint = NSPoint( offset.x/self.getScale() - 0.5*kerningValue, maxHeight )
+								textPoint = NSPoint( offset.x/self.getScale() - 0.5*kerningValue, offset.y/self.getScale() + maxHeight )
 								if kerningValue < 0:
 									self.drawTextAtPoint( str(int(kerningValue)), textPoint, fontColor=negativeColor, align="bottomcenter" )
 								else:
