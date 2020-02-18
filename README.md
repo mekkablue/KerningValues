@@ -16,6 +16,16 @@ This is a plugin for the font editor Glyphs.app. It shows the kerning values abo
 
 It will not display if you put the cursor *after* all text in Edit view.
 
+### Settings
+
+By default, the kerning values are displayed 150 units above the highest glyph in Edit view. You can change that by executing the following line in *Window > Macro Panel:* 
+
+```python
+Glyphs.defaults["com.mekkablue.KernIndicator.offset"] = 50
+```
+
+Change 50 to whatever other offset you want to have the kern values at.
+
 ### Requirements
 
 The plug-in works in Glyphs 2.5.2 in High Sierra. I can only test it in current app and OS versions, and perhaps it works on earlier versions too.

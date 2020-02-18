@@ -25,9 +25,15 @@ class KernIndicator(ReporterPlugin):
 			'fr': u'valeurs de crénage',
 		})
 		
+		# offset value
+		Glyphs.registerDefault( "com.mekkablue.KernIndicator.offset", 150 )
+		if Glyphs.defaults["com.mekkablue.KernIndicator.offset"] is None:
+			Glyphs.defaults["com.mekkablue.KernIndicator.offset"] = 150
+		
 	def foreground(self, layer):
 		positiveColor = NSColor.systemOrangeColor()
 		negativeColor = NSColor.systemBlueColor()
+		offset = Glyphs.defaults["com.mekkablue.KernIndicator.offset"]
 		
 		# go through tab content
 		glyph = layer.glyph()
@@ -48,7 +54,7 @@ class KernIndicator(ReporterPlugin):
 					lineOfLayers.append( thisLayer )
 					lineOfOffsets.append( tabView.cachedPositionAtIndex_(i) )
 					layerBounds = thisLayer.bounds
-					maxHeight = max( maxHeight, layerBounds.origin.y+layerBounds.size.height+150 )
+					maxHeight = max( maxHeight, layerBounds.origin.y+layerBounds.size.height+offset )
 			
 				# if we reach end of line or end of text, draw with collected layers:
 				if type(thisLayer) == GSControlLayer or i==layerCount-1:

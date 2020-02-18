@@ -17,15 +17,15 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.1</string>
+	<string>1.0.2</string>
 	<key>UpdateFeedURL</key>
 	<string>https://raw.githubusercontent.com/mekkablue/KernIndicator/master/KernIndicator.glyphsReporter/Contents/Info.plist</string>
 	<key>productPageURL</key>
 	<string>https://github.com/mekkablue/KernIndicator</string>
 	<key>productReleaseNotes</key>
-	<string>Fix display in 2nd line (thx Jeremy Tankard)</string>
+	<string>Added customisable offset (thx Jeremy Tankard)</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright, Rainer Erich Scheichelbauer, 2018</string>
 	<key>NSPrincipalClass</key>
