@@ -1,4 +1,5 @@
 # encoding: utf-8
+from __future__ import division, print_function, unicode_literals
 
 ###########################################################################################################
 #
@@ -16,7 +17,8 @@ from GlyphsApp import *
 from GlyphsApp.plugins import *
 
 class KernIndicator(ReporterPlugin):
-
+	
+	@objc.python_method
 	def settings(self):
 		self.menuName = Glyphs.localize({
 			'en': u'Kerning Values',
@@ -29,7 +31,8 @@ class KernIndicator(ReporterPlugin):
 		Glyphs.registerDefault( "com.mekkablue.KernIndicator.offset", 150 )
 		if Glyphs.defaults["com.mekkablue.KernIndicator.offset"] is None:
 			Glyphs.defaults["com.mekkablue.KernIndicator.offset"] = 150
-		
+	
+	@objc.python_method
 	def foreground(self, layer):
 		positiveColor = NSColor.systemOrangeColor()
 		negativeColor = NSColor.systemBlueColor()
@@ -89,8 +92,8 @@ class KernIndicator(ReporterPlugin):
 					lineOfLayers = []
 					lineOfOffsets = []
 					maxHeight = 600.0
-		
 
+	@objc.python_method
 	def __file__(self):
 		"""Please leave this method unchanged"""
 		return __file__
