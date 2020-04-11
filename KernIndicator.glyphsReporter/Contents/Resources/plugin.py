@@ -36,7 +36,10 @@ class KernIndicator(ReporterPlugin):
 	def foreground(self, layer):
 		positiveColor = NSColor.systemOrangeColor()
 		negativeColor = NSColor.systemBlueColor()
-		offset = Glyphs.defaults["com.mekkablue.KernIndicator.offset"]
+		try:
+			offset = int(Glyphs.defaults["com.mekkablue.KernIndicator.offset"])
+		except:
+			offset = 0
 		
 		# go through tab content
 		glyph = layer.glyph()
@@ -57,7 +60,9 @@ class KernIndicator(ReporterPlugin):
 					lineOfLayers.append( thisLayer )
 					lineOfOffsets.append( tabView.cachedPositionAtIndex_(i) )
 					layerBounds = thisLayer.bounds
-					maxHeight = max( maxHeight, layerBounds.origin.y+layerBounds.size.height+offset )
+					originHeight = layerBounds.origin.y
+					layerHeight = layerBounds.size.height
+					maxHeight = max( maxHeight, (originHeight+layerHeight+offset) )
 			
 				# if we reach end of line or end of text, draw with collected layers:
 				if type(thisLayer) == GSControlLayer or i==layerCount-1:
@@ -79,8 +84,8 @@ class KernIndicator(ReporterPlugin):
 								activePosition = tabView.activePosition()
 								lastLayerInLinePosition = tabView.cachedPositionAtIndex_(i)
 								thisLayerInLinePosition = lineOfOffsets[j]
-								offset = subtractPoints(thisLayerInLinePosition, activePosition)
-								textPoint = NSPoint( offset.x/self.getScale() - 0.5*kerningValue, offset.y/self.getScale() + maxHeight )
+								offsetVector = subtractPoints(thisLayerInLinePosition, activePosition)
+								textPoint = NSPoint( offsetVector.x/self.getScale() - 0.5*kerningValue, offsetVector.y/self.getScale() + maxHeight )
 								if kerningValue < 0:
 									self.drawTextAtPoint( str(int(kerningValue)), textPoint, fontColor=negativeColor, align="bottomcenter" )
 								else:
