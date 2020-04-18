@@ -24,7 +24,7 @@ class KernIndicator(ReporterPlugin):
 			'en': u'Kerning Values',
 			'de': u'Kerning-Werte',
 			'es': u'valores de Kerning',
-			'fr': u'valeurs de crénage',
+			'fr': u'les valeurs de crénage',
 		})
 		
 		# offset value
