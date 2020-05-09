@@ -15,6 +15,7 @@ from __future__ import division, print_function, unicode_literals
 import objc
 from GlyphsApp import *
 from GlyphsApp.plugins import *
+from Foundation import NSPointInRect, NSPoint, NSRect
 
 class KernIndicator(ReporterPlugin):
 	
@@ -34,69 +35,50 @@ class KernIndicator(ReporterPlugin):
 	
 	@objc.python_method
 	def foreground(self, layer):
+		scale = self.getScale()
+		if not 0.0299 < scale < 0.9001:
+			return
+			
 		positiveColor = NSColor.systemOrangeColor()
 		negativeColor = NSColor.systemBlueColor()
+		offset = 600
 		try:
-			offset = int(Glyphs.defaults["com.mekkablue.KernIndicator.offset"])
+			offset += int(Glyphs.defaults["com.mekkablue.KernIndicator.offset"])
 		except:
-			offset = 0
+			pass
 		
 		# go through tab content
 		glyph = layer.glyph()
 		font = layer.font()
 		if font: # sometimes font is empty, don't know why
-			tabView = font.currentTab.graphicView()
+			tab = font.currentTab
+			tabView = tab.graphicView()
 			layerCount = tabView.cachedLayerCount()
-			lineOfLayers = []
-			lineOfOffsets = []
-			maxHeight = 600.0 # where to draw the kerning value
-			
-			# collect layers in the same line (to only draw the marks we need)
-			for i in range(layerCount):
-				thisLayer = tabView.cachedGlyphAtIndex_(i)
-			
-				# collect layers and their offsets except newlines
-				if type(thisLayer) != GSControlLayer:
-					lineOfLayers.append( thisLayer )
-					lineOfOffsets.append( tabView.cachedPositionAtIndex_(i) )
-					layerBounds = thisLayer.bounds
-					originHeight = layerBounds.origin.y
-					layerHeight = layerBounds.size.height
-					maxHeight = max( maxHeight, (originHeight+layerHeight+offset) )
-			
-				# if we reach end of line or end of text, draw with collected layers:
-				if type(thisLayer) == GSControlLayer or i==layerCount-1:
-					previousLayer = None
-					# step through all layers of the line:
-					for j, thisLayerInLine in enumerate(lineOfLayers):
-						if previousLayer and previousLayer.associatedFontMaster().id == thisLayerInLine.associatedFontMaster().id:
-							masterID = thisLayerInLine.associatedFontMaster().id
+			if layerCount>1:
+				viewPort = tab.viewPort
+				viewPort.origin.y -= layer.ascender()*scale
+				activePosition = tabView.activePosition()
+				previousLayer = tabView.cachedGlyphAtIndex_(0)
+				for i in range(1,layerCount):
+					thisLayer = tabView.cachedGlyphAtIndex_(i)
+					thisLayerPosition = tabView.cachedPositionAtIndex_(i)
+					if NSPointInRect( thisLayerPosition, viewPort ) and type(thisLayer) != GSControlLayer and type(previousLayer) != GSControlLayer:
+						previousMasterID = previousLayer.master.id
+						thisMasterID = thisLayer.master.id
+						if thisMasterID == previousMasterID:
 							leftGlyph = previousLayer.glyph()
-							rightGlyph = thisLayerInLine.glyph()
-		
-							kerningValue = None
+							rightGlyph = thisLayer.glyph()
 							if leftGlyph and rightGlyph:
-								kerningValue = font.kerningForFontMasterID_firstGlyph_secondGlyph_( masterID, leftGlyph, rightGlyph )
-								if kerningValue > 10000: #notfound
-									kerningValue = None
-							
-							if not kerningValue is None:
-								activePosition = tabView.activePosition()
-								lastLayerInLinePosition = tabView.cachedPositionAtIndex_(i)
-								thisLayerInLinePosition = lineOfOffsets[j]
-								offsetVector = subtractPoints(thisLayerInLinePosition, activePosition)
-								textPoint = NSPoint( offsetVector.x/self.getScale() - 0.5*kerningValue, offsetVector.y/self.getScale() + maxHeight )
-								if kerningValue < 0:
-									self.drawTextAtPoint( str(int(kerningValue)), textPoint, fontColor=negativeColor, align="bottomcenter" )
-								else:
-									self.drawTextAtPoint( str(int(kerningValue)), textPoint, fontColor=positiveColor, align="bottomcenter" )
-									
-						previousLayer = thisLayerInLine
-				
-					# reset layer collection and maxHeight
-					lineOfLayers = []
-					lineOfOffsets = []
-					maxHeight = 600.0
+								kerningValue = font.kerningForFontMasterID_firstGlyph_secondGlyph_( thisMasterID, leftGlyph, rightGlyph )
+								if kerningValue and kerningValue < 10000: #notfound
+									offsetVector = subtractPoints(thisLayerPosition, activePosition)
+									textPoint = NSPoint( offsetVector.x/self.getScale() - 0.5*kerningValue, offsetVector.y/self.getScale() + offset )
+									if kerningValue < 0:
+										self.drawTextAtPoint( str(int(kerningValue)), textPoint, fontColor=negativeColor, align="bottomcenter" )
+									else:
+										self.drawTextAtPoint( str(int(kerningValue)), textPoint, fontColor=positiveColor, align="bottomcenter" )
+								
+					previousLayer = thisLayer
 
 	@objc.python_method
 	def __file__(self):
