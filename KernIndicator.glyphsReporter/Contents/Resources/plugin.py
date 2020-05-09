@@ -56,7 +56,7 @@ class KernIndicator(ReporterPlugin):
 			layerCount = tabView.cachedLayerCount()
 			if layerCount>1:
 				viewPort = tab.viewPort
-				viewPort.origin.y -= layer.ascender()*scale
+				viewPort.origin.y -= layer.master.ascender*scale
 				activePosition = tabView.activePosition()
 				previousLayer = tabView.cachedGlyphAtIndex_(0)
 				for i in range(1,layerCount):
