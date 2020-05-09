@@ -41,7 +41,7 @@ class KernIndicator(ReporterPlugin):
 			
 		positiveColor = NSColor.systemOrangeColor()
 		negativeColor = NSColor.systemBlueColor()
-		offset = 600
+		offset = 700
 		try:
 			offset += int(Glyphs.defaults["com.mekkablue.KernIndicator.offset"])
 		except:
@@ -56,7 +56,7 @@ class KernIndicator(ReporterPlugin):
 			layerCount = tabView.cachedLayerCount()
 			if layerCount>1:
 				viewPort = tab.viewPort
-				viewPort.origin.y -= layer.master.ascender*scale
+				viewPort.origin.y -= offset*scale
 				activePosition = tabView.activePosition()
 				previousLayer = tabView.cachedGlyphAtIndex_(0)
 				for i in range(1,layerCount):
