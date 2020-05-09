@@ -15,7 +15,7 @@ from __future__ import division, print_function, unicode_literals
 import objc
 from GlyphsApp import *
 from GlyphsApp.plugins import *
-from Foundation import NSPointInRect, NSPoint, NSRect
+from Foundation import NSPointInRect, NSPoint, NSRect, NSInsetRect
 
 class KernIndicator(ReporterPlugin):
 	
@@ -29,7 +29,7 @@ class KernIndicator(ReporterPlugin):
 		})
 		
 		# offset value
-		Glyphs.registerDefault( "com.mekkablue.KernIndicator.offset", 150 )
+		Glyphs.registerDefault( "com.mekkablue.KernIndicator.offset", -50 )
 		if Glyphs.defaults["com.mekkablue.KernIndicator.offset"] is None:
 			del Glyphs.defaults["com.mekkablue.KernIndicator.offset"]
 	
@@ -41,7 +41,13 @@ class KernIndicator(ReporterPlugin):
 			
 		positiveColor = NSColor.systemOrangeColor()
 		negativeColor = NSColor.systemBlueColor()
-		offset = 700
+		try:
+			# GLYPHS 3
+			offset = layer.master.defaultAscender()
+		except:
+			# GLYPHS 2
+			offset = layer.master.ascender
+		
 		try:
 			offset += int(Glyphs.defaults["com.mekkablue.KernIndicator.offset"])
 		except:
@@ -55,7 +61,7 @@ class KernIndicator(ReporterPlugin):
 			tabView = tab.graphicView()
 			layerCount = tabView.cachedLayerCount()
 			if layerCount>1:
-				viewPort = tab.viewPort
+				viewPort = NSInsetRect(tab.viewPort,-20,-20)
 				viewPort.origin.y -= offset*scale
 				activePosition = tabView.activePosition()
 				previousLayer = tabView.cachedGlyphAtIndex_(0)
