@@ -31,7 +31,7 @@ class KernIndicator(ReporterPlugin):
 		# offset value
 		Glyphs.registerDefault( "com.mekkablue.KernIndicator.offset", 150 )
 		if Glyphs.defaults["com.mekkablue.KernIndicator.offset"] is None:
-			Glyphs.defaults["com.mekkablue.KernIndicator.offset"] = 150
+			del Glyphs.defaults["com.mekkablue.KernIndicator.offset"]
 	
 	@objc.python_method
 	def foreground(self, layer):
