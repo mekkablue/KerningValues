@@ -12,16 +12,10 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>KernIndicator</string>
-	<key>CFBundleVersion</key>
-	<string>11</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.4</string>
-	<key>UpdateFeedURL</key>
-	<string>https://raw.githubusercontent.com/mekkablue/KernIndicator/master/KernIndicator.glyphsReporter/Contents/Info.plist</string>
-	<key>productPageURL</key>
-	<string>https://github.com/mekkablue/KernIndicator</string>
-	<key>productReleaseNotes</key>
-	<string>Updated plugin binary.</string>
+	<string>2.1.5</string>
+	<key>CFBundleVersion</key>
+	<string>12</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright, Rainer Erich Scheichelbauer, 2018</string>
 	<key>NSPrincipalClass</key>
@@ -30,5 +24,11 @@
 	<array>
 		<string>plugin.py</string>
 	</array>
+	<key>UpdateFeedURL</key>
+	<string>https://raw.githubusercontent.com/mekkablue/KernIndicator/master/KernIndicator.glyphsReporter/Contents/Info.plist</string>
+	<key>productPageURL</key>
+	<string>https://github.com/mekkablue/KernIndicator</string>
+	<key>productReleaseNotes</key>
+	<string>update binary files for Glyphs3</string>
 </dict>
 </plist>
