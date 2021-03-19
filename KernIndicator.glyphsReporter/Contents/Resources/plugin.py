@@ -41,10 +41,10 @@ class KernIndicator(ReporterPlugin):
 			
 		positiveColor = NSColor.systemOrangeColor()
 		negativeColor = NSColor.systemBlueColor()
-		try:
+		if hasattr(Glyphs, 'versionNumber') and Glyphs.versionNumber >= 3 :
 			# GLYPHS 3
 			offset = layer.master.defaultAscender()
-		except:
+		else:
 			# GLYPHS 2
 			offset = layer.master.ascender
 		
