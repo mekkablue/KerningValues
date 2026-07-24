@@ -13,9 +13,10 @@ from __future__ import division, print_function, unicode_literals
 ###########################################################################################################
 
 import objc
-from GlyphsApp import *
-from GlyphsApp.plugins import *
+from GlyphsApp import Glyphs, GSControlLayer, subtractPoints
+from GlyphsApp.plugins import ReporterPlugin
 from Foundation import NSPointInRect, NSPoint, NSRect, NSInsetRect
+from AppKit import NSColor
 
 class KernIndicator(ReporterPlugin):
 	
