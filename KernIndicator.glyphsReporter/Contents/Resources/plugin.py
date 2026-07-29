@@ -15,7 +15,7 @@ from __future__ import division, print_function, unicode_literals
 import objc
 from GlyphsApp import Glyphs, GSControlLayer, subtractPoints
 from GlyphsApp.plugins import ReporterPlugin
-from Foundation import NSPointInRect, NSPoint, NSRect, NSInsetRect
+from Foundation import NSPointInRect, NSPoint, NSInsetRect
 from AppKit import NSColor
 
 class KernIndicator(ReporterPlugin):
@@ -69,7 +69,7 @@ class KernIndicator(ReporterPlugin):
 				for i in range(1,layerCount):
 					thisLayer = tabView.cachedGlyphAtIndex_(i)
 					thisLayerPosition = tabView.cachedPositionAtIndex_(i)
-					if NSPointInRect( thisLayerPosition, viewPort ) and type(thisLayer) != GSControlLayer and type(previousLayer) != GSControlLayer:
+					if NSPointInRect( thisLayerPosition, viewPort) and not isinstance(thisLayer, GSControlLayer) and not isinstance(previousLayer, GSControlLayer):
 						previousMasterID = previousLayer.master.id
 						thisMasterID = thisLayer.master.id
 						if thisMasterID == previousMasterID:
